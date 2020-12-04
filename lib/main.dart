@@ -1,42 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:kemahasiswaan_kelompok9/pages/akademik.dart';
+import 'package:kemahasiswaan_kelompok9/pages/dashboard.dart';
+import 'package:kemahasiswaan_kelompok9/pages/kemahasiswaan.dart';
+import 'package:kemahasiswaan_kelompok9/pages/profil.dart';
 
-void main(){
-  runApp(new MaterialApp(
-    home: new KemahasiswaanKelompok9(),
-    debugShowCheckedModeBanner: false,
-  ));
+void main() {
+  runApp(MyApp());
 }
 
-class KemahasiswaanKelompok9 extends StatelessWidget{
-  TextEditingController controller = TextEditingController(text: (""));
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: new Awal(),
+    );
+  }
+}
+
+class Awal extends StatefulWidget{
+  Awal({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _AwalState createState() => _AwalState();
+}
+
+class _AwalState extends State<Awal>{
+
+  int _selectedIndex = 0;
+  final _layoutPage = [
+    Dashboard(),
+    Akademik(),
+    Kemahasiswaan(),
+    Profil()
+  ];
+
+  void _onTabItem(int index){
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context){
-    return new Scaffold(
-      backgroundColor: Colors.white,
-      appBar: new AppBar(
-        backgroundColor: Colors.blue,
-        leading: new Icon(Icons.arrow_back),
-        title: new Text("Pengumuman", style: TextStyle(fontSize: 27),),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Student App'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: Text("\n8 Agustus 2020", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+      body: _layoutPage.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: 10,
+        unselectedFontSize: 10,
+        items: <BottomNavigationBarItem> [
+          BottomNavigationBarItem (
+              icon : Icon(Icons.dashboard),
+              // ignore: deprecated_member_use
+              title: Text('Dashboard')
           ),
-          Container(
-              child: Text("\nORMIK Mahasiswa Baru", style: TextStyle(color: Colors.blue, fontSize: 25),)
+          BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              // ignore: deprecated_member_use
+              title: Text('Akademik')
           ),
-          TextField(
-            controller: controller,
+          BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              // ignore: deprecated_member_use
+              title: Text('Kemahasiswaan')
           ),
-          Container(
-            child: Text ("\nKegiatan  Orientasi Mahasiswa baru angkatan 2020 akan dilaksanakan mulai tanggal 24 September 2020 hingga 30 September 2020.", style: TextStyle(fontSize: 18, color: Colors.black),),
-          )
-          //
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_outlined),
+              // ignore: deprecated_member_use
+              title: Text('Profil')
+          ),
         ],
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        onTap: _onTabItem,
       ),
     );
   }
 }
+
+
+
